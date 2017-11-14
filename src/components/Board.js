@@ -4,15 +4,16 @@ import Square from './Square'
 export  default  class Board extends React.Component {
     constructor(props) {
         super(props);
-
+        if (this.n === undefined || this.n === null || this.n === 0) this.n = 20;
         this.state = {
-            squares: Array(this.props.n*this.props.n).fill(null),
+            squares: Array(this.n*this.n).fill(null),
             xIsNext: true,
         }
     }
     renderSquare(index) {
         return <Square
-            value = {this.state.squares[index]}
+             value = {this.state.squares[index]}
+             //value = {index}
             i = {index}
             onClick = {() => this.handleClick(index)}
         />;
@@ -75,26 +76,61 @@ export  default  class Board extends React.Component {
 
 function checkWin(squares, n){
 
-    console.log(n);
-    for(let row = 0; row < n; row++) {
+    for(let row = 0; row < n - 4; row++) {
         for(let col = 0; col < n; col++) {
             const team = squares[row*n + col];
             if (team == null) continue;
-            // row left
-            // row right
-            // col up
-            // col down
-            // 
             let i;
-            for(i = col + 1; i < col + 5; i++) {
-                if (squares[i] !== team) {
+            // right left
+            if (col <= n - 4) {
+                for (i = 1; i < 5; i++) {
+                    if (squares[row * n + col + i] !== team) {
+                        break;
+                    }
+                }
+                if (i === 5) {
+                    console.log(team);
+                    return team;
+                }
+            }
+
+            // front 2 bottom
+            for(i = 1; i < 5; i++) {
+                if (squares[row*n + i*n + col] !== team) {
+                    console.log(row*n + i*n + col);
                     break;
                 }
             }
-            if (i === col + 5) {
+            if (i === 5) {
                 console.log(team);
                 return team;
             }
+
+            //diagonal right left
+            for(i = 1; i < 5; i++) {
+                if (squares[row*n + i*n + col + i] !== team) {
+                    // console.log(row*n + i*n + col + i);
+                    break;
+                }
+            }
+            if (i === 5) {
+                console.log(team);
+                return team;
+            }
+            //diagonal left right
+            if (col >= 4) {
+                for (i = 1; i < 5; i++) {
+                    if (squares[row * n + i * n + col - i] !== team) {
+                        // console.log(row*n + i*n + col + i);
+                        break;
+                    }
+                }
+                if (i === 5) {
+                    console.log(team);
+                    return team;
+                }
+            }
+
 
         }
     }

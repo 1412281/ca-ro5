@@ -7,25 +7,29 @@ import Game from './components/Game'
 class App extends React.Component {
     constructor(props) {
         super(props);
+        this.n = 10;
         this.state = {
             i: 1,
-            n: 10,
-            game: ()=> <Game i={this.state.i} n={this.state.n} />,
+            game: ()=> <Game i={this.state.i} n={this.n} />,
         }
     }
     newGame() {
         let i = this.state.i + 1;
+        let n = this.n;
+        if (n === undefined || n === null || n === 0) n = 10;
         this.setState({
             i: i,
-            n: this.n,
-            game: () => <Game i={i} n={this.state.n} />,
+            game: () => <Game i={i} n={n} />,
         });
     }
 
     handleChange(e){
-        const value = e.target.value;
-        this.n = value;
+        let n = e.target.value;
         console.log(this.n);
+        if (n === undefined || n === null || n === 0) return;
+        if (n > 40) {n = 40;}
+        this.n = n;
+
     }
 
     render() {
