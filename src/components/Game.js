@@ -23,6 +23,7 @@ export default class Game extends React.Component {
         const col = index%n + 1;
         const smove = this.state.number + '. (' + (row) + ',' + (col) + ')';
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
+        const moves = this.state.move.slice(0, this.state.stepNumber + 1);
         const cur_square = history[history.length - 1].squares;
 
         const squares = cur_square.slice();
@@ -39,7 +40,7 @@ export default class Game extends React.Component {
             str_move: this.state.str_move.concat([{moves: smove}]),
             number: this.state.number + 1,
             stepNumber: history.length,
-            move: index,
+            move: moves.concat([{moves: index}]),
         });
     }
 
@@ -47,7 +48,7 @@ export default class Game extends React.Component {
         this.setState({
             stepNumber: step,
             xIsNext: (step % 2) === 0,
-            currently: this.state.move[step],
+            currently: this.state.move[step].moves,
         });
     }
 
