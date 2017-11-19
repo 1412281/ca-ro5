@@ -9,7 +9,7 @@ export default class Square extends React.Component {
         }
 
         return (
-            <button className={nameclass} onClick={() => this.props.onClick()}>
+            <button style={this.props.style} className={nameclass} onClick={() => this.props.onClick()}>
                 {this.props.value}
             </button>
         );

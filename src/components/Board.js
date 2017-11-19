@@ -4,22 +4,31 @@ import Square from './Square'
 export  default  class Board extends React.Component {
 
     renderSquare(index) {
+        var sStyle = {};
+        if (this.props.lineWin !== null && this.checkInlineWin(index)) {
+            sStyle = {background: '#56ff00'};
+        }
         let currently = false;
         if (this.props.currently === index) {
             currently = true;
         }
-        return <Square
+        return <Square style = {sStyle}
              value = {this.props.squares[index]}
-             //value = {index}
-            i = {index}
             onClick = {() => this.props.onClick(index)}
              currently = {currently}
         />;
     }
 
-
+    checkInlineWin(index) {
+        const line = this.props.lineWin;
+        for(var i = 0; i < line.length; i++) {
+            if (line[i] === index) {
+                return true;
+            }
+        }
+        return false;
+    }
     renderRowAndCol() {
-        // console.log(this.state.squares[1]);
         const n = this.props.n;
         const data = [];
         for(let i = 0; i < n; i++) {
